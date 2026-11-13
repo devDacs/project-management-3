@@ -1,7 +1,11 @@
+"use client";
+
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsSidebarCollapsed } from "@/state";
 import {
   Briefcase,
+  ChevronDown,
+  ChevronUp,
   Home,
   LockIcon,
   LucideIcon,
@@ -14,10 +18,12 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
+
+  const [showProjects, setShowProjects] = useState(false);
 
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed,
@@ -72,6 +78,20 @@ const Sidebar = () => {
           <SidebarLink icon={User} label="Users" href="/users" />
           <SidebarLink icon={Users} label="Teams" href="/teams" />
         </nav>
+
+        {/* PROJECT LINKS */}
+        <button
+          onClick={() => setShowProjects((prev) => !prev)}
+          className="flex w-full items-center justify-between px-8 py-3 text-gray-500"
+        >
+          <span>Projects</span>
+          {showProjects ? (
+            <ChevronUp className="h-5 w-5" />
+          ) : (
+            <ChevronDown className="h-5 w-5" />
+          )}
+        </button>
+        {/* PROJECT LIST */}
       </div>
     </div>
   );
