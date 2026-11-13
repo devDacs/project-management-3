@@ -1,8 +1,14 @@
-import { Search, Settings } from "lucide-react";
+import { useAppDispatch, useAppSelector } from "@/app/redux";
+import { setIsDarkMode } from "@/state";
+import { Moon, Search, Settings, Sun } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
 const Navbar = () => {
+  const dispatch = useAppDispatch();
+
+  const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
+
   return (
     <div className="flex items-center justify-between bg-white px-4 py-3 dark:bg-black">
       {/* Search bar */}
@@ -19,6 +25,21 @@ const Navbar = () => {
 
       {/* Icons */}
       <div className="flex items-center">
+        {/* Darkmode */}
+        <button
+          onClick={() => dispatch(setIsDarkMode(!isDarkMode))}
+          className={`rounded p-2 ${
+            isDarkMode ? "dark:hover:bg-gray-700" : "hover:bg-gray-100"
+          }`}
+        >
+          {isDarkMode ? (
+            <Sun className="h-6 w-6 cursor-pointer dark:text-white" />
+          ) : (
+            <Moon className="h-6 w-6 cursor-pointer dark:text-white" />
+          )}
+        </button>
+
+        {/* Settings */}
         <Link
           href="/settings"
           className="h-min w-min rounded p-2 hover:bg-gray-100"
