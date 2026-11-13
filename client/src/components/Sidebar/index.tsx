@@ -8,7 +8,7 @@ import {
   AlertTriangle,
   Briefcase,
   ChevronDown,
-  ChevronUp,
+  ChevronRight,
   Home,
   Layers3,
   LockIcon,
@@ -92,9 +92,9 @@ const Sidebar = () => {
         >
           <span>Projects</span>
           {showProjects ? (
-            <ChevronUp className="h-5 w-5" />
-          ) : (
             <ChevronDown className="h-5 w-5" />
+          ) : (
+            <ChevronRight className="h-5 w-5" />
           )}
         </button>
         {/* PROJECT LIST */}
@@ -106,9 +106,9 @@ const Sidebar = () => {
         >
           <span>Priorities</span>
           {showPriority ? (
-            <ChevronUp className="h-5 w-5" />
-          ) : (
             <ChevronDown className="h-5 w-5" />
+          ) : (
+            <ChevronRight className="h-5 w-5" />
           )}
         </button>
         {/* PRIORITIES LIST */}
