@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/app/redux";
-import { setIsDarkMode } from "@/state";
-import { Moon, Search, Settings, Sun } from "lucide-react";
+import { setIsDarkMode, setIsSidebarCollapsed } from "@/state";
+import { Menu, Moon, Search, Settings, Sun } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -9,10 +9,23 @@ const Navbar = () => {
 
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
+  const isSidebarCollapsed = useAppSelector(
+    (state) => state.global.isSidebarCollapsed,
+  );
+
   return (
     <div className="flex items-center justify-between bg-white px-4 py-3 dark:bg-black">
-      {/* Search bar */}
       <div className="flex items-center gap-8">
+        {/* Menu */}
+        {isSidebarCollapsed && (
+          <button
+            onClick={() => dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))}
+          >
+            <Menu className="h-8 w-8 dark:text-white" />
+          </button>
+        )}
+
+        {/* Search bar */}
         <div className="relative flex h-min w-[200px]">
           <Search className="absolute left-[4px] top-1/2 mr-2 h-5 w-5 -translate-y-1/2 transform cursor-pointer dark:text-white" />
           <input
