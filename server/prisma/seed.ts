@@ -1,8 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "../src/lib/prisma";
 import path from "path";
 import fs from "fs";
-
-const prisma = new PrismaClient();
 
 async function deleteAllData(orderedFileNames: string[]) {
   const modelNames = orderedFileNames.map((fileName) => {
