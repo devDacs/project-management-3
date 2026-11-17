@@ -10,6 +10,8 @@
   "type": "module",
   "devDependencies": {
     "@types/node": "^26.6.6",
+    "concurrently": "^10.0.7",
+    "rimraf": "^6.1.4",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   }
