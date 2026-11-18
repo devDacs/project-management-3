@@ -63,7 +63,7 @@ export interface Attachment {
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
   reducerPath: "api",
-  tagTypes: ["Projects"],
+  tagTypes: ["Projects", "Tasks"],
   endpoints: ({ query, mutation }) => ({
     getProjects: query<Project[], void>({
       query: () => "projects",
@@ -78,7 +78,19 @@ export const api = createApi({
       }),
       invalidatesTags: ["Projects"],
     }),
+    getTasksByProjectId: query<Task[], { id: number }>({
+      query: ({ id }) => `tasks/project/${id}`,
+      transformResponse: ({ data }) => data,
+      providesTags: (result) =>
+        result
+          ? result.map(({ id }) => ({ type: "Tasks" as const, id }))
+          : ["Tasks"],
+    }),
   }),
 });
 
-export const { useGetProjectsQuery, useCreateProjectMutation } = api;
+export const {
+  useGetProjectsQuery,
+  useCreateProjectMutation,
+  useGetTasksByProjectIdQuery,
+} = api;
