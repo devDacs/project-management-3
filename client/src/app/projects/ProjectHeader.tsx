@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import { LucideIcon } from "lucide-react";
+import { Clock, Grid3X3, List, LucideIcon, Table } from "lucide-react";
 import React from "react";
 
 type Props = {
@@ -14,6 +14,36 @@ const ProjectHeader = ({ activeTab, setActiveTab }: Props) => {
 
       <div className="py-6 lg:pb-4 lg:pt-8">
         <Header name="Product Design Development" />
+      </div>
+
+      {/* TABS */}
+      <div className="flex flex-wrap-reverse gap-2 border-y border-gray-200 pb-[8px] pt-2 dark:border-stroke-dark md:items-center">
+        <div className="flex flex-1 items-center gap-2 md:gap-4">
+          <TabButton
+            name="Board"
+            icon={Grid3X3}
+            setActiveTab={setActiveTab}
+            activeTab={activeTab}
+          />
+          <TabButton
+            name="List"
+            icon={List}
+            setActiveTab={setActiveTab}
+            activeTab={activeTab}
+          />
+          <TabButton
+            name="Timeline"
+            icon={Clock}
+            setActiveTab={setActiveTab}
+            activeTab={activeTab}
+          />
+          <TabButton
+            name="Table"
+            icon={Table}
+            setActiveTab={setActiveTab}
+            activeTab={activeTab}
+          />
+        </div>
       </div>
     </div>
   );
