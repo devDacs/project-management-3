@@ -64,13 +64,21 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
   reducerPath: "api",
   tagTypes: ["Projects"],
-  endpoints: ({ query }) => ({
+  endpoints: ({ query, mutation }) => ({
     getProjects: query<Project[], void>({
       query: () => "projects",
       providesTags: ["Projects"],
       transformResponse: ({ data }) => data,
     }),
+    createProject: mutation<Project, Partial<Project>>({
+      query: (body) => ({
+        url: "projects",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Projects"],
+    }),
   }),
 });
 
-export const { useGetProjectsQuery } = api;
+export const { useGetProjectsQuery, useCreateProjectMutation } = api;
