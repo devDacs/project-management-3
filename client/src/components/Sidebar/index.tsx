@@ -2,6 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsSidebarCollapsed } from "@/state";
+import { useGetProjectsQuery } from "@/state/api";
 import {
   AlertCircle,
   AlertOctagon,
@@ -26,6 +27,8 @@ import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 
 const Sidebar = () => {
+  const { data: projects } = useGetProjectsQuery();
+
   const dispatch = useAppDispatch();
 
   const [showProjects, setShowProjects] = useState(false);
@@ -98,6 +101,15 @@ const Sidebar = () => {
           )}
         </button>
         {/* PROJECT LIST */}
+        {showProjects &&
+          projects?.map(({ id, name }) => (
+            <SidebarLink
+              key={id}
+              icon={Briefcase}
+              label={name}
+              href={`/projects/${id}`}
+            />
+          ))}
 
         {/* PRIORITIES LINKS */}
         <button
