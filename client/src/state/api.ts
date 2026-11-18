@@ -86,6 +86,14 @@ export const api = createApi({
           ? result.map(({ id }) => ({ type: "Tasks" as const, id }))
           : ["Tasks"],
     }),
+    createTask: mutation<Task, Partial<Task>>({
+      query: (body) => ({
+        url: "tasks",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Tasks"],
+    }),
   }),
 });
 
@@ -93,4 +101,5 @@ export const {
   useGetProjectsQuery,
   useCreateProjectMutation,
   useGetTasksByProjectIdQuery,
+  useCreateTaskMutation,
 } = api;
