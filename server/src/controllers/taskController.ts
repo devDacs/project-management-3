@@ -25,3 +25,44 @@ export const getTasksByProjectId = async (
       .json({ message: `Error retrieving tasks: ${error.message}` });
   }
 };
+
+export const createTask = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  const {
+    title,
+    description,
+    status,
+    priority,
+    tags,
+    startDate,
+    dueDate,
+    points,
+    projectId,
+    authorUserId,
+    assignedUserId,
+  } = req.body;
+  try {
+    const data = await prisma.task.create({
+      data: {
+        title,
+        description,
+        status,
+        priority,
+        tags,
+        startDate,
+        dueDate,
+        points,
+        projectId,
+        authorUserId,
+        assignedUserId,
+      },
+    });
+    res.status(201).json({ success: true, data });
+  } catch (error: any) {
+    res
+      .status(500)
+      .json({ message: `Error creating a task: ${error.message}` });
+  }
+};

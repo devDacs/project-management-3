@@ -1,8 +1,12 @@
 import { Router } from "express";
-import { getTasksByProjectId } from "../controllers/taskController.js";
+import {
+  createTask,
+  getTasksByProjectId,
+} from "../controllers/taskController.js";
 
 const router = Router();
 
 router.get("/project/:id", getTasksByProjectId);
+router.post("/", createTask);
 
 export default router;
