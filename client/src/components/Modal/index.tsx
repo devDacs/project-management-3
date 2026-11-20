@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Header from "../Header";
 import { X } from "lucide-react";
+import { useAppSelector } from "@/app/redux";
 
 type Props = {
   children: React.ReactNode;
@@ -11,10 +12,18 @@ type Props = {
 };
 
 const Modal = ({ isOpen, name, onClose, children }: Props) => {
+  const isSidebarCollapsed = useAppSelector(
+    (state) => state.global.isSidebarCollapsed,
+  );
+
   if (!isOpen) return null;
 
   return ReactDOM.createPortal(
-    <div className="fixed inset-0 flex h-full w-full items-center justify-center overflow-y-auto bg-gray-600 bg-opacity-50 p-4">
+    <div
+      className={`fixed inset-0 flex h-full w-full items-center justify-center overflow-y-auto bg-gray-600 bg-opacity-50 p-4 ${
+        !isSidebarCollapsed && "md:pl-64"
+      }`}
+    >
       <div className="w-full max-w-2xl rounded-lg bg-white p-4 shadow-lg dark:bg-dark-secondary">
         <Header
           name={name}
