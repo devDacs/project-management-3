@@ -60,6 +60,12 @@ export interface Attachment {
   uploadedById: number;
 }
 
+export interface SearchResults {
+  tasks: Task[];
+  projects: Project[];
+  users: User[];
+}
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
   reducerPath: "api",
@@ -102,6 +108,10 @@ export const api = createApi({
       }),
       invalidatesTags: (_, __, { id }) => [{ type: "Tasks" as const, id }],
     }),
+    search: query<SearchResults, string>({
+      query: (query) => `search?query=${query}`,
+      transformResponse: ({ data }) => data,
+    }),
   }),
 });
 
@@ -111,4 +121,5 @@ export const {
   useGetTasksByProjectIdQuery,
   useCreateTaskMutation,
   useUpdateTaskStatusByIdMutation,
+  useSearchQuery,
 } = api;
