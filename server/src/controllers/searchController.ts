@@ -9,30 +9,40 @@ export const search = async (req: Request, res: Response): Promise<void> => {
     return;
   }
 
+  const searchTerm = query.trim();
+
   try {
-    const tasks = await prisma.task.findMany({
-      where: {
-        OR: [
-          { title: { contains: query as string } },
-          { description: { contains: query as string } },
-        ],
-      },
-    });
+    const [tasks, projects, users] = await Promise.all([
+      prisma.task.findMany({
+        where: {
+          OR: [
+            { title: { contains: searchTerm, mode: "insensitive" } },
+            { description: { contains: searchTerm, mode: "insensitive" } },
+          ],
+        },
+        take: 10,
+      }),
 
-    const projects = await prisma.project.findMany({
-      where: {
-        OR: [
-          { name: { contains: query as string } },
-          { description: { contains: query as string } },
-        ],
-      },
-    });
+      prisma.project.findMany({
+        where: {
+          OR: [
+            { name: { contains: searchTerm, mode: "insensitive" } },
+            { description: { contains: searchTerm, mode: "insensitive" } },
+          ],
+        },
+        take: 10,
+      }),
 
-    const users = await prisma.user.findMany({
-      where: {
-        OR: [{ username: { contains: query as string } }],
-      },
-    });
+      prisma.user.findMany({
+        where: { username: { contains: searchTerm, mode: "insensitive" } },
+        select: {
+          id: true,
+          username: true,
+          profilePictureUrl: true,
+        },
+        take: 10,
+      }),
+    ]);
 
     res.json({ success: true, data: { tasks, projects, users } });
   } catch (error: any) {
