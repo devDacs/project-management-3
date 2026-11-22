@@ -3,6 +3,12 @@ import { prisma } from "../lib/prisma.js";
 
 export const search = async (req: Request, res: Response): Promise<void> => {
   const { query } = req.query;
+
+  if (typeof query !== "string" || !query.trim()) {
+    res.status(400).json({ message: "A valid search query is required." });
+    return;
+  }
+
   try {
     const tasks = await prisma.task.findMany({
       where: {
