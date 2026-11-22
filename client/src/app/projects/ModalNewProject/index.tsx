@@ -20,7 +20,7 @@ const ModalNewProject = ({ isOpen, onClose }: Props) => {
   const [endDate, setEndDate] = useState("");
 
   const handleSubmit = async () => {
-    if (!projectName || !startDate || !endDate) {
+    if (!isFormValid() || isLoading) {
       return;
     }
 
@@ -34,8 +34,8 @@ const ModalNewProject = ({ isOpen, onClose }: Props) => {
 
     try {
       await createProject({
-        name: projectName,
-        description,
+        name: projectName.trim(),
+        description: description.trim(),
         startDate: formattedStartDate,
         endDate: formattedEndDate,
       }).unwrap();
@@ -47,7 +47,7 @@ const ModalNewProject = ({ isOpen, onClose }: Props) => {
   };
 
   const isFormValid = () => {
-    return projectName && startDate && endDate;
+    return projectName.trim() && startDate && endDate;
   };
 
   return (
