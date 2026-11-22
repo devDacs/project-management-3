@@ -7,6 +7,7 @@ import morgan from "morgan";
 /* ROUTE IMPORTS */
 import projectRoutes from "./routes/projectRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
+import searchRoutes from "./routes/searchRoutes.js";
 
 /* CONFIGURATION */
 const app = express();
@@ -34,6 +35,7 @@ app.get("/", (req, res) => {
 
 app.use("/projects", projectRoutes);
 app.use("/tasks", taskRoutes);
+app.use("/search", searchRoutes);
 
 /* START SERVER */
 app.listen(port, "0.0.0.0", () => {
