@@ -1,6 +1,7 @@
 "use client";
 
 import Header from "@/components/Header";
+import ProjectCard from "@/components/ProjectCard";
 import TaskCard from "@/components/TaskCard";
 import { useSearchQuery } from "@/state/api";
 import { debounce } from "lodash";
@@ -51,6 +52,14 @@ const Search = () => {
 
             {searchResults.tasks.map((task) => (
               <TaskCard key={task.id} task={task} />
+            ))}
+
+            {searchResults.projects && searchResults.projects.length > 0 && (
+              <Header name="Projects" isSmallText />
+            )}
+
+            {searchResults.projects.map((project) => (
+              <ProjectCard key={project.id} project={project} />
             ))}
           </div>
         )}
