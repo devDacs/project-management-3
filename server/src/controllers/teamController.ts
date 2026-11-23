@@ -31,9 +31,9 @@ export const getTeams = async (req: Request, res: Response): Promise<void> => {
     );
 
     res.json({ success: true, data });
-  } catch (error: any) {
-    res
-      .status(500)
-      .json({ message: `Error retrieving teams: ${error.message}` });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+
+    res.status(500).json({ message: `Error retrieving teams: ${message}` });
   }
 };

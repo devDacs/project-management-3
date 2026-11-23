@@ -8,10 +8,10 @@ export const getProjects = async (
   try {
     const data = await prisma.project.findMany();
     res.json({ success: true, data });
-  } catch (error: any) {
-    res
-      .status(500)
-      .json({ message: `Error retrieving projects: ${error.message}` });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+
+    res.status(500).json({ message: `Error retrieving projects: ${message}` });
   }
 };
 
@@ -25,9 +25,9 @@ export const createProject = async (
       data: { name, description, startDate, endDate },
     });
     res.status(201).json({ success: true, data });
-  } catch (error: any) {
-    res
-      .status(500)
-      .json({ message: `Error creating a project: ${error.message}` });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+
+    res.status(500).json({ message: `Error creating a project: ${message}` });
   }
 };

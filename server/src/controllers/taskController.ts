@@ -19,10 +19,10 @@ export const getTasksByProjectId = async (
       },
     });
     res.json({ success: true, data });
-  } catch (error: any) {
-    res
-      .status(500)
-      .json({ message: `Error retrieving tasks: ${error.message}` });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+
+    res.status(500).json({ message: `Error retrieving tasks: ${message}` });
   }
 };
 
@@ -60,10 +60,10 @@ export const createTask = async (
       },
     });
     res.status(201).json({ success: true, data });
-  } catch (error: any) {
-    res
-      .status(500)
-      .json({ message: `Error creating a task: ${error.message}` });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+
+    res.status(500).json({ message: `Error creating a task: ${message}` });
   }
 };
 
@@ -83,9 +83,9 @@ export const updateTaskStatusById = async (
       },
     });
     res.json({ success: true, data });
-  } catch (error: any) {
-    res
-      .status(500)
-      .json({ message: `Error updating a task: ${error.message}` });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+
+    res.status(500).json({ message: `Error updating a task: ${message}` });
   }
 };
