@@ -5,11 +5,19 @@ export const getTasksByProjectId = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
-  const { id } = req.params;
+  const projectId = Number(req.params.id);
+
+  if (!Number.isInteger(projectId) || projectId <= 0) {
+    res.status(400).json({
+      message: "Invalid project ID",
+    });
+    return;
+  }
+
   try {
     const data = await prisma.task.findMany({
       where: {
-        projectId: Number(id),
+        projectId,
       },
       include: {
         author: true,
