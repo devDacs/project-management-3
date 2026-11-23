@@ -94,11 +94,19 @@ export const getTasksByUserId = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
-  const { id } = req.params;
+  const userId = Number(req.params.id);
+
+  if (!Number.isInteger(userId) || userId <= 0) {
+    res.status(400).json({
+      message: "Invalid user ID",
+    });
+    return;
+  }
+
   try {
     const data = await prisma.task.findMany({
       where: {
-        OR: [{ authorUserId: Number(id) }, { assignedUserId: Number(id) }],
+        OR: [{ authorUserId: userId }, { assignedUserId: userId }],
       },
       include: {
         author: true,
