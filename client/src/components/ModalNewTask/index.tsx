@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Modal from "../Modal";
 
 type Props = {
-  id: string;
+  id?: string | null;
   isOpen: boolean;
   onClose: () => void;
 };
@@ -15,7 +15,7 @@ const INPUT_STYLES =
 const SELECT_STYLES =
   "mb-4 block w-full rounded border border-gray-300 px-3 py-2 dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
 
-const ModalNewTask = ({ id, isOpen, onClose }: Props) => {
+const ModalNewTask = ({ id = null, isOpen, onClose }: Props) => {
   const [createTask, { isLoading }] = useCreateTaskMutation();
 
   const [title, setTitle] = useState("");
@@ -27,6 +27,7 @@ const ModalNewTask = ({ id, isOpen, onClose }: Props) => {
   const [dueDate, setDueDate] = useState("");
   const [authorUserId, setAuthorUserId] = useState("");
   const [assignedUserId, setAssignedUserId] = useState("");
+  const [projectId, setProjectId] = useState("");
 
   const handleSubmit = async () => {
     if (!isFormValid() || isLoading) {
@@ -52,7 +53,7 @@ const ModalNewTask = ({ id, isOpen, onClose }: Props) => {
         dueDate: formattedDueDate,
         authorUserId: parseInt(authorUserId.trim()),
         assignedUserId: parseInt(assignedUserId.trim()),
-        projectId: Number(id),
+        projectId: id ? Number(id) : parseInt(projectId),
       }).unwrap();
 
       onClose();
@@ -63,7 +64,7 @@ const ModalNewTask = ({ id, isOpen, onClose }: Props) => {
 
   const isFormValid = () => {
     return (
-      id &&
+      (id || projectId) &&
       title.trim() &&
       status &&
       priority &&
@@ -151,6 +152,15 @@ const ModalNewTask = ({ id, isOpen, onClose }: Props) => {
           value={authorUserId}
           onChange={(e) => setAuthorUserId(e.target.value)}
         />
+        {!id && (
+          <input
+            type="text"
+            className={INPUT_STYLES}
+            placeholder="Project ID"
+            value={projectId}
+            onChange={(e) => setProjectId(e.target.value)}
+          />
+        )}
         <input
           type="text"
           className={INPUT_STYLES}
