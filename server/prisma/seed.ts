@@ -2,56 +2,82 @@ import { prisma } from "../src/lib/prisma";
 import path from "path";
 import fs from "fs";
 
-async function deleteAllData(orderedFileNames: string[]) {
-  const modelNames = orderedFileNames.map((fileName) => {
-    const modelName = path.basename(fileName, path.extname(fileName));
-    return modelName.charAt(0).toUpperCase() + modelName.slice(1);
-  });
-
-  for (const modelName of modelNames) {
-    const model: any = prisma[modelName as keyof typeof prisma];
-    try {
-      await model.deleteMany({});
-      console.log(`Cleared data from ${modelName}`);
-    } catch (error) {
-      console.error(`Error clearing data from ${modelName}:`, error);
-    }
-  }
-}
+const orderedFileNames = [
+  "team.json",
+  "project.json",
+  "user.json",
+  "projectTeam.json",
+  "task.json",
+  "attachment.json",
+  "comment.json",
+  "taskAssignment.json",
+];
 
 async function main() {
   const dataDirectory = path.join(process.cwd(), "prisma", "seedData");
 
-  const orderedFileNames = [
-    "team.json",
-    "project.json",
-    "projectTeam.json",
-    "user.json",
-    "task.json",
-    "attachment.json",
-    "comment.json",
-    "taskAssignment.json",
-  ];
-
-  await deleteAllData(orderedFileNames);
+  await deleteAllData();
 
   for (const fileName of orderedFileNames) {
     const filePath = path.join(dataDirectory, fileName);
     const jsonData = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    const modelName = path.basename(fileName, path.extname(fileName));
-    const model: any = prisma[modelName as keyof typeof prisma];
 
-    try {
+    const modelName = path.basename(fileName, path.extname(fileName));
+    const model = prisma[modelName as keyof typeof prisma] as any;
+
+    if (modelName === "team") {
       for (const data of jsonData) {
-        await model.create({ data });
+        const { productOwnerUserId, projectManagerUserId, ...teamData } = data;
+
+        await model.create({
+          data: teamData,
+        });
       }
-      console.log(`Seeded ${modelName} with data from ${fileName}`);
-    } catch (error) {
-      console.error(`Error seeding data for ${modelName}:`, error);
+
+      console.log(`Seeded ${modelName} without user assignments`);
+      continue;
     }
+
+    for (const data of jsonData) {
+      await model.create({ data });
+    }
+
+    console.log(`Seeded ${modelName} with data from ${fileName}`);
   }
+
+  // Phase 3: Assign Product Owners and Project Managers
+  const teamData = JSON.parse(
+    fs.readFileSync(path.join(dataDirectory, "team.json"), "utf-8"),
+  );
+
+  for (const team of teamData) {
+    const createdTeam = await prisma.team.findFirst({
+      where: { teamName: team.teamName },
+    });
+
+    if (!createdTeam) {
+      throw new Error(`Team not found: ${team.teamName}`);
+    }
+
+    await prisma.team.update({
+      where: { id: createdTeam.id },
+      data: {
+        productOwnerUserId: team.productOwnerUserId,
+        projectManagerUserId: team.projectManagerUserId,
+      },
+    });
+  }
+
+  console.log("Updated Team role assignments");
+}
+
+async function deleteAllData() {
+  // Your deletion logic goes here
 }
 
 main()
-  .catch((e) => console.error(e))
+  .catch((e) => {
+    console.error(e);
+    process.exitCode = 1;
+  })
   .finally(async () => prisma.$disconnect());
