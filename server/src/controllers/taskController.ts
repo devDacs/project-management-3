@@ -79,12 +79,20 @@ export const updateTaskStatusById = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
-  const { id } = req.params;
+  const id = Number(req.params.id);
   const { status } = req.body;
+
+  if (!Number.isInteger(id) || id <= 0) {
+    res.status(400).json({
+      message: "Invalid task ID",
+    });
+    return;
+  }
+
   try {
     const data = await prisma.task.update({
       where: {
-        id: Number(id),
+        id,
       },
       data: {
         status,
