@@ -7,6 +7,7 @@ import {
   useGetProjectsQuery,
   useGetTasksByProjectIdQuery,
 } from "@/state/api";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React from "react";
 import { useAppSelector } from "../redux";
 import Header from "@/components/Header";
@@ -23,6 +24,14 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
+
+const taskColumns: GridColDef[] = [
+  { field: "title", headerName: "Title", width: 200 },
+  { field: "status", headerName: "Status", width: 150 },
+  { field: "priority", headerName: "Priority", width: 150 },
+  { field: "dueDate", headerName: "Due Date", width: 150 },
+];
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -137,6 +146,26 @@ const HomePage = () => {
               <Legend />
             </PieChart>
           </ResponsiveContainer>
+        </div>
+
+        {/* YOUR TASKS */}
+        <div className="rounded-lg bg-white p-4 shadow dark:bg-dark-secondary md:col-span-2">
+          <h3 className="mb-4 text-lg font-semibold dark:text-white">
+            Your Tasks
+          </h3>
+
+          <div className="h-[300px] w-full">
+            <DataGrid
+              rows={tasks || []}
+              columns={taskColumns}
+              checkboxSelection
+              loading={tasksLoading}
+              getRowClassName={() => "data-grid-row"}
+              getCellClassName={() => "data-grid-cell"}
+              className={dataGridClassNames}
+              sx={dataGridSxStyles(isDarkMode)}
+            />
+          </div>
         </div>
       </div>
     </div>
