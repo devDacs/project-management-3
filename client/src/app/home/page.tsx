@@ -1,6 +1,12 @@
 "use client";
 
-import { Priority, Task, useGetTasksByProjectIdQuery } from "@/state/api";
+import {
+  Priority,
+  Project,
+  Task,
+  useGetProjectsQuery,
+  useGetTasksByProjectIdQuery,
+} from "@/state/api";
 import React from "react";
 import { useAppSelector } from "../redux";
 import Header from "@/components/Header";
@@ -8,12 +14,17 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  Cell,
   Legend,
+  Pie,
+  PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
+
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 const HomePage = () => {
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
@@ -24,8 +35,15 @@ const HomePage = () => {
     isError: tasksError,
   } = useGetTasksByProjectIdQuery({ id: Number("1") });
 
-  if (tasksLoading) return <div>Loading...</div>;
-  if (tasksError || !tasks) return <div>Error fetching data</div>;
+  const {
+    data: projects,
+    isLoading: projectsLoading,
+    isError: projectsError,
+  } = useGetProjectsQuery();
+
+  if (tasksLoading || projectsLoading) return <div>Loading...</div>;
+  if (tasksError || !tasks || projectsError || !projects)
+    return <div>Error fetching data</div>;
 
   const priorityCount = tasks.reduce(
     (acc: Record<string, number>, { priority }: Task) => {
@@ -38,6 +56,20 @@ const HomePage = () => {
   const taskDistribution = Object.keys(priorityCount).map((key) => ({
     name: key,
     count: priorityCount[key],
+  }));
+
+  const statusCount = projects.reduce(
+    (acc: Record<string, number>, { endDate }: Project) => {
+      const status = endDate ? "Completed" : "Active";
+      acc[status] = (acc[status] || 0) + 1;
+      return acc;
+    },
+    {},
+  );
+
+  const projectStatus = Object.keys(statusCount).map((key) => ({
+    name: key,
+    count: statusCount[key],
   }));
 
   const chartColors = isDarkMode
@@ -82,6 +114,28 @@ const HomePage = () => {
               <Legend />
               <Bar dataKey="count" fill={chartColors.bar} />
             </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* PROJECT STATUS */}
+        <div className="rounded-lg bg-white p-4 shadow dark:bg-dark-secondary">
+          <h3 className="mb-4 text-lg font-semibold dark:text-white">
+            Project Status
+          </h3>
+
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie dataKey="count" data={projectStatus} fill="#82CA9D" label>
+                {projectStatus.map((_, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index & COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
           </ResponsiveContainer>
         </div>
       </div>
