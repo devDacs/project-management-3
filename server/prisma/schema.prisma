@@ -25,6 +25,9 @@ model User {
   attachments    Attachment[]
   comments       Comment[]
   team           Team?            @relation(fields: [teamId], references: [id])
+
+  teamAsProductOwner   Team[] @relation("TeamProductOwner")
+  teamAsProjectManager Team[] @relation("TeamProjectManager")
 }
 
 model Team {
@@ -35,6 +38,9 @@ model Team {
 
   projectTeams ProjectTeam[]
   users        User[]
+
+  teamProductOwner   User? @relation("TeamProductOwner", fields: [productOwnerUserId], references: [id])
+  teamProjectManager User? @relation("TeamProjectManager", fields: [projectManagerUserId], references: [id])
 }
 
 model Project {
