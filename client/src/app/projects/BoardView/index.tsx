@@ -205,7 +205,10 @@ const TaskCard = ({
             {/* TAGS */}
             <div className="flex gap-2">
               {taskTagsSplit.map((tag) => (
-                <div className="rounded-full bg-blue-100 px-2 py-1 text-xs">
+                <div
+                  key={tag}
+                  className="rounded-full bg-blue-100 px-2 py-1 text-xs"
+                >
                   {tag}
                 </div>
               ))}
