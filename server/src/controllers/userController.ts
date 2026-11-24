@@ -12,6 +12,27 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+export const getUserByCognitoId = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  const cognitoId = req.params.id;
+
+  try {
+    const data = await prisma.user.findUnique({
+      where: {
+        cognitoId,
+      },
+    });
+
+    res.json({ success: true, data });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+
+    res.status(500).json({ message: `Error retrieving a user: ${message}` });
+  }
+};
+
 export const createUser = async (
   req: Request,
   res: Response,
