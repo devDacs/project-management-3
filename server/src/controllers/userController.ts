@@ -18,6 +18,13 @@ export const getUserByCognitoId = async (
 ): Promise<void> => {
   const cognitoId = req.params.id;
 
+  if (typeof cognitoId !== "string") {
+    res.status(400).json({
+      message: "Invalid Cognito ID",
+    });
+    return;
+  }
+
   try {
     const data = await prisma.user.findUnique({
       where: {
