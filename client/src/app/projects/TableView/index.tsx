@@ -109,7 +109,7 @@ const columns: GridColDef[] = [
       <div className="flex h-full w-full items-center justify-center">
         <div className="h-9 w-9">
           <Image
-            src={`/${value.profilePictureUrl}`}
+            src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}/${value.profilePictureUrl}`}
             alt={value.username}
             width={100}
             height={50}
@@ -130,7 +130,7 @@ const columns: GridColDef[] = [
         <div className="flex h-full w-full items-center justify-center">
           <div className="h-9 w-9">
             <Image
-              src={`/${value.profilePictureUrl}`}
+              src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}/${value.profilePictureUrl}`}
               alt={value.username}
               width={100}
               height={50}

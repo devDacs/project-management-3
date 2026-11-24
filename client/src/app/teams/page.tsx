@@ -28,7 +28,7 @@ const columns: GridColDef[] = [
         ) : (
           <div className="h-9 w-9">
             <Image
-              src={`/${teamProductOwner.profilePictureUrl}`}
+              src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}/${teamProductOwner.profilePictureUrl}`}
               alt={teamProductOwner.username}
               width={100}
               height={50}
@@ -50,7 +50,7 @@ const columns: GridColDef[] = [
         ) : (
           <div className="h-9 w-9">
             <Image
-              src={`/${teamProjectManager.profilePictureUrl}`}
+              src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}/${teamProjectManager.profilePictureUrl}`}
               alt={teamProjectManager.username}
               width={100}
               height={50}

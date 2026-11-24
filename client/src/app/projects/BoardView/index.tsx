@@ -180,7 +180,7 @@ const TaskCard = ({
       {/* ATTACHMENT PHOTO */}
       {attachments && attachments.length > 0 && (
         <Image
-          src={`/${attachments[0].fileURL}`}
+          src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}/${attachments[0].fileURL}`}
           alt={attachments[0].fileName ?? "Attachment"}
           width={400}
           height={200}
@@ -256,7 +256,7 @@ const TaskCard = ({
             {assignee && (
               <Image
                 key={assignee.id}
-                src={`/${assignee.profilePictureUrl}`}
+                src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}/${assignee.profilePictureUrl}`}
                 alt={assignee.username}
                 width={30}
                 height={30}
@@ -268,7 +268,7 @@ const TaskCard = ({
             {author && (
               <Image
                 key={author.id}
-                src={`/${author.profilePictureUrl}`}
+                src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}/${author.profilePictureUrl}`}
                 alt={author.username}
                 width={30}
                 height={30}
