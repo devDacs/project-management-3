@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
 
 export interface Project {
   id: number;
@@ -140,6 +141,34 @@ export const api = createApi({
           ? result.map(({ id }) => ({ type: "Tasks" as const, id }))
           : [{ type: "Tasks" as const, id: userId }],
     }),
+    getAuthUser: query({
+      queryFn: async (_, __, ___, baseQuery) => {
+        try {
+          const user = await getCurrentUser();
+          const session = await fetchAuthSession();
+
+          if (!session) {
+            throw new Error("No session found");
+          }
+
+          const { userSub } = session;
+
+          const userDetailsResponse = await baseQuery(
+            `users/cognitoId/${userSub}`,
+          );
+
+          if (userDetailsResponse.error) {
+            return { error: userDetailsResponse.error };
+          }
+
+          const userDetails = (userDetailsResponse.data as { data: User }).data;
+
+          return { data: { user, userSub, userDetails } };
+        } catch (error: any) {
+          return { error: error.message || "Could not fetch user data" };
+        }
+      },
+    }),
   }),
 });
 
@@ -153,4 +182,5 @@ export const {
   useGetUsersQuery,
   useGetTeamsQuery,
   useGetTasksByUserIdQuery,
+  useGetAuthUserQuery,
 } = api;
