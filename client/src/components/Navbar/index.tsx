@@ -1,6 +1,9 @@
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsDarkMode, setIsSidebarCollapsed } from "@/state";
-import { Menu, Moon, Search, Settings, Sun } from "lucide-react";
+import { useGetAuthUserQuery } from "@/state/api";
+import { signOut } from "aws-amplify/auth";
+import { Menu, Moon, Search, Settings, Sun, User } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -12,6 +15,21 @@ const Navbar = () => {
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed,
   );
+
+  const { data: currentUser } = useGetAuthUserQuery({});
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error: any) {
+      console.error(`Error signing out: ${error}`);
+    }
+  };
+
+  if (!currentUser) return null;
+  const {
+    userDetails: { profilePictureUrl, username },
+  } = currentUser;
 
   return (
     <div className="flex items-center justify-between bg-white px-4 py-3 dark:bg-black">
@@ -63,6 +81,35 @@ const Navbar = () => {
         </Link>
 
         <div className="ml-2 mr-5 hidden min-h-[2em] w-[0.1rem] bg-gray-200 md:inline-block" />
+
+        {/* User */}
+        <div className="hidden items-center justify-between md:flex">
+          {/* Avatar */}
+          <div className="align-center flex h-9 w-9 justify-center">
+            {profilePictureUrl ? (
+              <Image
+                src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}/${profilePictureUrl}`}
+                alt={username}
+                width={100}
+                height={50}
+                className="h-full rounded-full object-cover"
+              />
+            ) : (
+              <User className="h-6 w-6 cursor-pointer self-center rounded-full dark:text-white" />
+            )}
+          </div>
+
+          {/* Username */}
+          <span className="mx-3 text-gray-800 dark:text-white">{username}</span>
+
+          {/* Logout Button */}
+          <button
+            className="hidden rounded bg-blue-400 px-4 py-2 text-xs font-bold text-white hover:bg-blue-500 md:block"
+            onClick={handleSignOut}
+          >
+            Sign out
+          </button>
+        </div>
       </div>
     </div>
   );
