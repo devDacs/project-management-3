@@ -6,7 +6,12 @@ import Header from "@/components/Header";
 import ModalNewTask from "@/components/ModalNewTask";
 import TaskCard from "@/components/TaskCard";
 import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
-import { Priority, Task, useGetTasksByUserIdQuery } from "@/state/api";
+import {
+  Priority,
+  Task,
+  useGetAuthUserQuery,
+  useGetTasksByUserIdQuery,
+} from "@/state/api";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { format } from "date-fns";
 import Image from "next/image";
@@ -119,13 +124,15 @@ const ReusablePriorityPage = ({ priority }: Props) => {
   const [view, setView] = useState("list");
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
 
-  const userId = 1;
+  const { data: currentUser } = useGetAuthUserQuery({});
+
+  if (!currentUser) return null;
 
   const {
-    data: tasks,
-    isLoading,
-    isError,
-  } = useGetTasksByUserIdQuery({ id: userId });
+    userDetails: { id },
+  } = currentUser;
+
+  const { data: tasks, isLoading, isError } = useGetTasksByUserIdQuery({ id });
 
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
