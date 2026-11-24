@@ -32,6 +32,13 @@ export const getUserByCognitoId = async (
       },
     });
 
+    if (!data) {
+      res.status(404).json({
+        message: "User not found",
+      });
+      return;
+    }
+
     res.json({ success: true, data });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Unknown error";
