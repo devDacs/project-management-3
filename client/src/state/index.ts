@@ -4,12 +4,14 @@ interface initialStateTypes {
   isSidebarCollapsed: boolean;
   isDarkMode: boolean;
   lastActiveProjectTab: string;
+  lastActivePriorityView: string;
 }
 
 const initialState: initialStateTypes = {
   isSidebarCollapsed: false,
   isDarkMode: false,
   lastActiveProjectTab: "Board",
+  lastActivePriorityView: "list",
 };
 
 const reducers = {
@@ -28,6 +30,12 @@ const reducers = {
   ) => {
     state.lastActiveProjectTab = action.payload;
   },
+  setLastActivePriorityView: (
+    state: initialStateTypes,
+    action: PayloadAction<string>,
+  ) => {
+    state.lastActivePriorityView = action.payload;
+  },
 };
 
 const globalSlice = createSlice({
@@ -36,6 +44,10 @@ const globalSlice = createSlice({
   reducers,
 });
 
-export const { setIsSidebarCollapsed, setIsDarkMode, setLastActiveProjectTab } =
-  globalSlice.actions;
+export const {
+  setIsSidebarCollapsed,
+  setIsDarkMode,
+  setLastActiveProjectTab,
+  setLastActivePriorityView,
+} = globalSlice.actions;
 export default globalSlice.reducer;
