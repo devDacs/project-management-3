@@ -1,11 +1,12 @@
 "use client";
 
-import { useAppSelector } from "@/app/redux";
+import { useAppDispatch, useAppSelector } from "@/app/redux";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
 import ModalNewTask from "@/components/ModalNewTask";
 import TaskCard from "@/components/TaskCard";
 import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
+import { setLastActivePriorityView } from "@/state";
 import {
   Priority,
   Task,
@@ -121,7 +122,8 @@ const columns: GridColDef[] = [
 ];
 
 const ReusablePriorityPage = ({ priority }: Props) => {
-  const [view, setView] = useState("list");
+  const dispatch = useAppDispatch();
+
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
 
   const { data: currentUser } = useGetAuthUserQuery({});
@@ -135,6 +137,10 @@ const ReusablePriorityPage = ({ priority }: Props) => {
   } = useGetTasksByUserIdQuery({ id: userId! }, { skip: !userId });
 
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
+
+  const lastActivePriorityView = useAppSelector(
+    (state) => state.global.lastActivePriorityView,
+  );
 
   const filteredTasks = tasks?.filter(
     ({ priority: taskPriority }: Task) => taskPriority === priority,
@@ -163,14 +169,14 @@ const ReusablePriorityPage = ({ priority }: Props) => {
 
       <div className="mb-4 flex justify-start">
         <button
-          className={`rounded-l px-4 py-2 ${view === "list" ? "bg-gray-300" : "bg-white"}`}
-          onClick={() => setView("list")}
+          className={`rounded-l px-4 py-2 ${lastActivePriorityView === "list" ? "bg-gray-300" : "bg-white"}`}
+          onClick={() => dispatch(setLastActivePriorityView("list"))}
         >
           List
         </button>
         <button
-          className={`rounded-r px-4 py-2 ${view === "table" ? "bg-gray-300" : "bg-white"}`}
-          onClick={() => setView("table")}
+          className={`rounded-r px-4 py-2 ${lastActivePriorityView === "table" ? "bg-gray-300" : "bg-white"}`}
+          onClick={() => dispatch(setLastActivePriorityView("table"))}
         >
           Table
         </button>
@@ -178,7 +184,7 @@ const ReusablePriorityPage = ({ priority }: Props) => {
 
       {isLoading ? (
         <div>Loading tasks...</div>
-      ) : view === "list" ? (
+      ) : lastActivePriorityView === "list" ? (
         filteredTasks && (
           <div className="grid grid-cols-1 gap-4">
             {filteredTasks.map((task: Task) => (
