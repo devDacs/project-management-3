@@ -5,6 +5,7 @@ import Modal from "../Modal";
 
 type Props = {
   id?: string | null;
+  toStatus?: Status | null;
   isOpen: boolean;
   onClose: () => void;
 };
@@ -15,7 +16,12 @@ const INPUT_STYLES =
 const SELECT_STYLES =
   "mb-4 block w-full rounded border border-gray-300 px-3 py-2 dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
 
-const ModalNewTask = ({ id = null, isOpen, onClose }: Props) => {
+const ModalNewTask = ({
+  id = null,
+  isOpen,
+  onClose,
+  toStatus = null,
+}: Props) => {
   const [createTask, { isLoading }] = useCreateTaskMutation();
 
   const [title, setTitle] = useState("");
@@ -46,7 +52,7 @@ const ModalNewTask = ({ id = null, isOpen, onClose }: Props) => {
       await createTask({
         title: title.trim(),
         description: description.trim(),
-        status: Status[status as keyof typeof Status],
+        status: toStatus ?? Status[status as keyof typeof Status],
         priority: Priority[priority as keyof typeof Priority],
         tags: tags.trim(),
         startDate: formattedStartDate,
@@ -66,7 +72,7 @@ const ModalNewTask = ({ id = null, isOpen, onClose }: Props) => {
     return (
       (id || projectId) &&
       title.trim() &&
-      status &&
+      (status || toStatus) &&
       priority &&
       startDate &&
       dueDate &&
@@ -75,7 +81,11 @@ const ModalNewTask = ({ id = null, isOpen, onClose }: Props) => {
   };
 
   return (
-    <Modal name="Create New Task" isOpen={isOpen} onClose={onClose}>
+    <Modal
+      name={`Create New Task ${toStatus ? `(${toStatus})` : ""}`}
+      isOpen={isOpen}
+      onClose={onClose}
+    >
       <form
         className="mt-4 space-y-6"
         onSubmit={(e) => {
@@ -97,18 +107,20 @@ const ModalNewTask = ({ id = null, isOpen, onClose }: Props) => {
           onChange={(e) => setDescription(e.target.value)}
         />
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-2">
-          <select
-            className={SELECT_STYLES}
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          >
-            <option value="">Select Status</option>
-            {Object.entries(Status).map(([key, value]) => (
-              <option key={key} value={key}>
-                {value}
-              </option>
-            ))}
-          </select>
+          {!toStatus && (
+            <select
+              className={SELECT_STYLES}
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+            >
+              <option value="">Select Status</option>
+              {Object.entries(Status).map(([key, value]) => (
+                <option key={key} value={key}>
+                  {value}
+                </option>
+              ))}
+            </select>
+          )}
           <select
             className={SELECT_STYLES}
             value={priority}
