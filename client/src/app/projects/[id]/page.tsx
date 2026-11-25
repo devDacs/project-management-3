@@ -41,7 +41,7 @@ const Project = ({ params: { id } }: Props) => {
       )}
 
       {activeTab === "List" && (
-        <List id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
+        <List id={id} onAddNewTask={() => setIsModalNewTaskOpen(true)} />
       )}
 
       {activeTab === "Timeline" && (

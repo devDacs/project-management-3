@@ -6,10 +6,10 @@ import React from "react";
 
 type Props = {
   id: string;
-  setIsModalNewTaskOpen: (isOpen: boolean) => void;
+  onAddNewTask: () => void;
 };
 
-const ListView = ({ id, setIsModalNewTaskOpen }: Props) => {
+const ListView = ({ id, onAddNewTask }: Props) => {
   const {
     data: tasks,
     isLoading,
@@ -26,10 +26,7 @@ const ListView = ({ id, setIsModalNewTaskOpen }: Props) => {
           name="List"
           isSmallText
           buttonComponent={
-            <Button
-              label="Add New Task"
-              onClick={() => setIsModalNewTaskOpen(true)}
-            />
+            <Button label="Add New Task" onClick={onAddNewTask} />
           }
         />
       </div>
