@@ -32,7 +32,7 @@ export interface Task {
 export enum Status {
   ToDo = "To Do",
   WorkInProgress = "Work In Progress",
-  UnderReview = "UnderReview",
+  UnderReview = "Under Review",
   Completed = "Completed",
 }
 
