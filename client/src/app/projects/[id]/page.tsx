@@ -37,7 +37,13 @@ const Project = ({ params: { id } }: Props) => {
       <ProjectHeader activeTab={activeTab} />
 
       {activeTab === "Board" && (
-        <Board id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
+        <Board
+          id={id}
+          onAddNewTaskByStatus={(status) => {
+            setToStatus(status);
+            setIsModalNewTaskOpen(true);
+          }}
+        />
       )}
 
       {activeTab === "List" && (

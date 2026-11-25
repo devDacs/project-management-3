@@ -1,4 +1,5 @@
 import {
+  Status,
   useGetTasksByProjectIdQuery,
   useUpdateTaskStatusByIdMutation,
 } from "@/state/api";
@@ -12,26 +13,19 @@ import Image from "next/image";
 
 type Props = {
   id: string;
-  setIsModalNewTaskOpen: (isOpen: boolean) => void;
+  onAddNewTaskByStatus: (status: Status) => void;
 };
 
-const TASK_STATUS = {
-  TO_DO: "To Do",
-  WORK_IN_PROGRESS: "Work In Progress",
-  UNDER_REVIEW: "Under Review",
-  COMPLETED: "Completed",
-} as const;
-
-type TaskStatus = (typeof TASK_STATUS)[keyof typeof TASK_STATUS];
+type TaskStatus = (typeof Status)[keyof typeof Status];
 
 const TASK_STATUS_COLORS: Record<TaskStatus, string> = {
-  [TASK_STATUS.TO_DO]: "#2563EB",
-  [TASK_STATUS.WORK_IN_PROGRESS]: "#059669",
-  [TASK_STATUS.UNDER_REVIEW]: "#D97706",
-  [TASK_STATUS.COMPLETED]: "#000000",
+  [Status.ToDo]: "#2563EB",
+  [Status.WorkInProgress]: "#059669",
+  [Status.UnderReview]: "#D97706",
+  [Status.Completed]: "#000000",
 };
 
-const BoardView = ({ id, setIsModalNewTaskOpen }: Props) => {
+const BoardView = ({ id, onAddNewTaskByStatus }: Props) => {
   const {
     data: tasks,
     isLoading,
@@ -49,13 +43,13 @@ const BoardView = ({ id, setIsModalNewTaskOpen }: Props) => {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2 xl:grid-cols-4">
-        {Object.values(TASK_STATUS).map((status) => (
+        {Object.values(Status).map((status) => (
           <TaskColumn
             key={status}
             status={status}
             tasks={tasks || []}
             moveTask={moveTask}
-            setIsModalNewTaskOpen={setIsModalNewTaskOpen}
+            onAddNewTask={() => onAddNewTaskByStatus(status)}
           />
         ))}
       </div>
@@ -67,14 +61,14 @@ type TaskColumnProps = {
   status: string;
   tasks: Task[];
   moveTask: (id: number, toStatus: string) => void;
-  setIsModalNewTaskOpen: (isOpen: boolean) => void;
+  onAddNewTask: () => void;
 };
 
 const TaskColumn = ({
   status,
   tasks,
   moveTask,
-  setIsModalNewTaskOpen,
+  onAddNewTask,
 }: TaskColumnProps) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "task",
@@ -115,7 +109,7 @@ const TaskColumn = ({
 
             <button
               className="flex h-6 w-6 items-center justify-center rounded bg-gray-200 dark:bg-dark-tertiary dark:text-white"
-              onClick={() => setIsModalNewTaskOpen(true)}
+              onClick={onAddNewTask}
             >
               <Plus size={16} />
             </button>
