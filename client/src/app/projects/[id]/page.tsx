@@ -8,6 +8,7 @@ import List from "../ListView";
 import Timeline from "../TimelineView";
 import Table from "../TableView";
 import ModalNewTask from "@/components/ModalNewTask";
+import { Status } from "@/state/api";
 
 type Props = {
   params: { id: string };
@@ -18,6 +19,7 @@ const Project = ({ params: { id } }: Props) => {
     (state) => state.global.lastActiveProjectTab,
   );
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
+  const [toStatus, setToStatus] = useState<Status | null>(null);
 
   return (
     <div>
@@ -25,7 +27,11 @@ const Project = ({ params: { id } }: Props) => {
       <ModalNewTask
         id={id}
         isOpen={isModalNewTaskOpen}
-        onClose={() => setIsModalNewTaskOpen(false)}
+        toStatus={toStatus}
+        onClose={() => {
+          setIsModalNewTaskOpen(false);
+          setToStatus(null);
+        }}
       />
 
       <ProjectHeader activeTab={activeTab} />
