@@ -25,12 +25,86 @@ import {
   YAxis,
 } from "recharts";
 import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
+import { format } from "date-fns";
+
+const TASK_STATUS = {
+  TO_DO: "To Do",
+  WORK_IN_PROGRESS: "Work In Progress",
+  UNDER_REVIEW: "Under Review",
+  COMPLETED: "Completed",
+} as const;
+
+type TaskStatus = (typeof TASK_STATUS)[keyof typeof TASK_STATUS];
+
+const TASK_STATUS_COLORS: Record<TaskStatus, string> = {
+  [TASK_STATUS.TO_DO]: "bg-blue-200 text-blue-700",
+  [TASK_STATUS.WORK_IN_PROGRESS]: "bg-green-200 text-green-700",
+  [TASK_STATUS.UNDER_REVIEW]: "bg-orange-200 text-orange-700",
+  [TASK_STATUS.COMPLETED]: "bg-gray-200 text-gray-700",
+};
+
+const TASK_PRIORITY = {
+  URGENT: "Urgent",
+  HIGH: "High",
+  MEDIUM: "Medium",
+  LOW: "Low",
+  BACKLOG: "Backlog",
+} as const;
+
+type TaskPriority = (typeof TASK_PRIORITY)[keyof typeof TASK_PRIORITY];
+
+const TASK_PRIORITY_COLORS: Record<TaskPriority, string> = {
+  [TASK_PRIORITY.URGENT]: "bg-red-200 text-red-700",
+  [TASK_PRIORITY.HIGH]: "bg-yellow-200 text-yellow-700",
+  [TASK_PRIORITY.MEDIUM]: "bg-green-200 text-green-700",
+  [TASK_PRIORITY.LOW]: "bg-blue-200 text-blue-700",
+  [TASK_PRIORITY.BACKLOG]: "bg-gray-200 text-gray-700",
+};
 
 const taskColumns: GridColDef[] = [
-  { field: "title", headerName: "Title", width: 200 },
-  { field: "status", headerName: "Status", width: 150 },
-  { field: "priority", headerName: "Priority", width: 150 },
-  { field: "dueDate", headerName: "Due Date", width: 150 },
+  {
+    field: "title",
+    headerName: "Title",
+    width: 100,
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    width: 130,
+    renderCell: ({ value }) => (
+      <span
+        className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${TASK_STATUS_COLORS[value as TaskStatus]}`}
+      >
+        {value}
+      </span>
+    ),
+  },
+  {
+    field: "priority",
+    headerName: "Priority",
+    width: 130,
+    renderCell: ({ value }) => (
+      <span
+        className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${TASK_PRIORITY_COLORS[value as TaskPriority]}`}
+      >
+        {value}
+      </span>
+    ),
+  },
+  {
+    field: "startDate",
+    headerName: "Start Date",
+    width: 130,
+    renderCell: ({ value }) =>
+      value ? format(new Date(value), "P") : "Not Set",
+  },
+  {
+    field: "dueDate",
+    headerName: "Due Date",
+    width: 130,
+    renderCell: ({ value }) =>
+      value ? format(new Date(value), "P") : "Not Set",
+  },
 ];
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
