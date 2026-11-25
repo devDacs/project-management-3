@@ -45,7 +45,7 @@ const Project = ({ params: { id } }: Props) => {
       )}
 
       {activeTab === "Timeline" && (
-        <Timeline id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
+        <Timeline id={id} onAddNewTask={() => setIsModalNewTaskOpen(true)} />
       )}
 
       {activeTab === "Table" && (
