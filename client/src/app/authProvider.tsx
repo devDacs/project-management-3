@@ -33,7 +33,7 @@ const formFields = {
       label: "Password",
       inputProps: { required: true, type: "password" },
     },
-    confirmPassword: {
+    confirm_password: {
       order: 4,
       placeholder: "Confirm your password",
       label: "Confirm Password",
