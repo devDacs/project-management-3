@@ -126,13 +126,13 @@ const ReusablePriorityPage = ({ priority }: Props) => {
 
   const { data: currentUser } = useGetAuthUserQuery({});
 
-  if (!currentUser) return null;
+  const userId = currentUser?.userDetails?.id;
 
   const {
-    userDetails: { id },
-  } = currentUser;
-
-  const { data: tasks, isLoading, isError } = useGetTasksByUserIdQuery({ id });
+    data: tasks,
+    isLoading,
+    isError,
+  } = useGetTasksByUserIdQuery({ id: userId! }, { skip: !userId });
 
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
