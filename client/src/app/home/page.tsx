@@ -4,8 +4,9 @@ import {
   Priority,
   Project,
   Task,
+  useGetAuthUserQuery,
   useGetProjectsQuery,
-  useGetTasksByProjectIdQuery,
+  useGetTasksByUserIdQuery,
 } from "@/state/api";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React from "react";
@@ -112,11 +113,15 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 const HomePage = () => {
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
+  const { data: currentUser } = useGetAuthUserQuery({});
+
+  const userId = currentUser?.userDetails?.id;
+
   const {
     data: tasks,
     isLoading: tasksLoading,
     isError: tasksError,
-  } = useGetTasksByProjectIdQuery({ id: Number("1") });
+  } = useGetTasksByUserIdQuery({ id: userId! }, { skip: !userId });
 
   const {
     data: projects,
