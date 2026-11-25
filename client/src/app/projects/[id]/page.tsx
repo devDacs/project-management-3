@@ -49,7 +49,7 @@ const Project = ({ params: { id } }: Props) => {
       )}
 
       {activeTab === "Table" && (
-        <Table id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
+        <Table id={id} onAddNewTask={() => setIsModalNewTaskOpen(true)} />
       )}
     </div>
   );

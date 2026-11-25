@@ -10,7 +10,7 @@ import React from "react";
 
 type Props = {
   id: string;
-  setIsModalNewTaskOpen: (isOpen: boolean) => void;
+  onAddNewTask: () => void;
 };
 
 const TASK_STATUS = {
@@ -142,7 +142,7 @@ const columns: GridColDef[] = [
   },
 ];
 
-const TableView = ({ id, setIsModalNewTaskOpen }: Props) => {
+const TableView = ({ id, onAddNewTask }: Props) => {
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
   const {
     data: tasks,
@@ -160,10 +160,7 @@ const TableView = ({ id, setIsModalNewTaskOpen }: Props) => {
           name="Table"
           isSmallText
           buttonComponent={
-            <Button
-              label="Add New Task"
-              onClick={() => setIsModalNewTaskOpen(true)}
-            />
+            <Button label="Add New Task" onClick={onAddNewTask} />
           }
         />
       </div>
