@@ -5,7 +5,7 @@ import Button from "@/components/button";
 import Header from "@/components/header";
 import CreateTaskModal from "@/features/tasks/create-task-modal";
 import TaskCard from "@/features/tasks/task-card";
-import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
+import { dataGridClassNames, dataGridSxStyles } from "@/lib/data-grid-styles";
 import { setLastActivePriorityView } from "@/state/global-slice";
 import {
   Priority,

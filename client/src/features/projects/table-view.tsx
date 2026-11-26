@@ -1,7 +1,7 @@
 import { useAppSelector } from "@/store/store";
 import Button from "@/components/button";
 import Header from "@/components/header";
-import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
+import { dataGridClassNames, dataGridSxStyles } from "@/lib/data-grid-styles";
 import { useGetTasksByProjectIdQuery } from "@/state/api";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { format } from "date-fns";

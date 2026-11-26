@@ -12,7 +12,7 @@ import {
   GridToolbarFilterButton,
 } from "@mui/x-data-grid";
 import Image from "next/image";
-import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
+import { dataGridClassNames, dataGridSxStyles } from "@/lib/data-grid-styles";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 100 },
