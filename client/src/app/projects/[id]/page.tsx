@@ -3,12 +3,12 @@
 import React, { useState } from "react";
 import ProjectHeader from "../ProjectHeader";
 import { useAppSelector } from "@/app/redux";
-import Timeline from "../TimelineView";
 import ModalNewTask from "@/components/ModalNewTask";
 import { Status } from "@/state/api";
 import Board from "@/features/projects/board-view";
 import List from "@/features/projects/list-view";
 import Table from "@/features/projects/table-view";
+import Timeline from "@/features/projects/timeline-view";
 
 type Props = {
   params: { id: string };
