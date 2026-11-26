@@ -1,6 +1,6 @@
 import Button from "@/components/button";
 import Header from "@/components/header";
-import TaskCard from "@/components/TaskCard";
+import TaskCard from "@/features/tasks/task-card";
 import { Task, useGetTasksByProjectIdQuery } from "@/state/api";
 import React from "react";
 

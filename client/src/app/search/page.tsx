@@ -2,7 +2,7 @@
 
 import Header from "@/components/header";
 import ProjectCard from "@/components/ProjectCard";
-import TaskCard from "@/components/TaskCard";
+import TaskCard from "@/features/tasks/task-card";
 import UserCard from "@/components/UserCard";
 import { useSearchQuery } from "@/state/api";
 import { debounce } from "lodash";

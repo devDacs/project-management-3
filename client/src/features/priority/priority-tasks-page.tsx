@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/app/redux";
 import Button from "@/components/button";
 import Header from "@/components/header";
 import CreateTaskModal from "@/features/tasks/create-task-modal";
-import TaskCard from "@/components/TaskCard";
+import TaskCard from "@/features/tasks/task-card";
 import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
 import { setLastActivePriorityView } from "@/state";
 import {
