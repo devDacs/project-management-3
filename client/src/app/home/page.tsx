@@ -11,7 +11,7 @@ import {
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React from "react";
 import { useAppSelector } from "../redux";
-import Header from "@/components/Header";
+import Header from "@/components/header";
 import {
   Bar,
   BarChart,
