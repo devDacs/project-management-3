@@ -1,133 +1,33 @@
-import {
-  Status,
-  useGetTasksByProjectIdQuery,
-  useUpdateTaskStatusByIdMutation,
-} from "@/state/api";
-import React from "react";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import { Task } from "@/state/api";
-import { EllipsisVertical, MessageSquareMore, Plus } from "lucide-react";
-import { format } from "date-fns/format";
+import { format } from "date-fns";
+import { EllipsisVertical, MessageSquareMore } from "lucide-react";
 import Image from "next/image";
+import React from "react";
+import { useDrag } from "react-dnd";
 
 type Props = {
-  id: string;
-  onAddNewTaskByStatus: (status: Status) => void;
+  task: Task;
 };
 
-type TaskStatus = (typeof Status)[keyof typeof Status];
+const TASK_PRIORITY = {
+  URGENT: "Urgent",
+  HIGH: "High",
+  MEDIUM: "Medium",
+  LOW: "Low",
+  BACKLOG: "Backlog",
+} as const;
 
-const TASK_STATUS_COLORS: Record<TaskStatus, string> = {
-  [Status.ToDo]: "#2563EB",
-  [Status.WorkInProgress]: "#059669",
-  [Status.UnderReview]: "#D97706",
-  [Status.Completed]: "#000000",
+type TaskPriority = (typeof TASK_PRIORITY)[keyof typeof TASK_PRIORITY];
+
+const TASK_PRIORITY_COLORS: Record<TaskPriority, string> = {
+  [TASK_PRIORITY.URGENT]: "bg-red-200 text-red-700",
+  [TASK_PRIORITY.HIGH]: "bg-yellow-200 text-yellow-700",
+  [TASK_PRIORITY.MEDIUM]: "bg-green-200 text-green-700",
+  [TASK_PRIORITY.LOW]: "bg-blue-200 text-blue-700",
+  [TASK_PRIORITY.BACKLOG]: "bg-gray-200 text-gray-700",
 };
 
-const BoardView = ({ id, onAddNewTaskByStatus }: Props) => {
-  const {
-    data: tasks,
-    isLoading,
-    isError,
-  } = useGetTasksByProjectIdQuery({ id: Number(id) });
-  const [updateTaskStatus] = useUpdateTaskStatusByIdMutation();
-
-  const moveTask = (id: number, toStatus: string) => {
-    updateTaskStatus({ id, status: toStatus });
-  };
-
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>An error occured while fetching tasks</div>;
-
-  return (
-    <DndProvider backend={HTML5Backend}>
-      <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2 xl:grid-cols-4">
-        {Object.values(Status).map((status) => (
-          <TaskColumn
-            key={status}
-            status={status}
-            tasks={tasks || []}
-            moveTask={moveTask}
-            onAddNewTask={() => onAddNewTaskByStatus(status)}
-          />
-        ))}
-      </div>
-    </DndProvider>
-  );
-};
-
-type TaskColumnProps = {
-  status: string;
-  tasks: Task[];
-  moveTask: (id: number, toStatus: string) => void;
-  onAddNewTask: () => void;
-};
-
-const TaskColumn = ({
-  status,
-  tasks,
-  moveTask,
-  onAddNewTask,
-}: TaskColumnProps) => {
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: "task",
-    drop: ({ id }: { id: number }) => moveTask(id, status),
-    collect: (monitor: any) => ({ isOver: monitor.isOver() }),
-  }));
-
-  const tasksCount = tasks.filter(
-    ({ status: taskStatus }) => taskStatus === status,
-  ).length;
-
-  return (
-    <div
-      ref={(instance) => {
-        drop(instance);
-      }}
-      className={`sl:py-4 rounded-lg py-2 xl:px-2 ${isOver ? "bg-blue-100 dark:bg-neutral-950" : ""}`}
-    >
-      <div className="mb-3 flex w-full">
-        <div
-          className="w-2 rounded-s-lg"
-          style={{ backgroundColor: TASK_STATUS_COLORS[status as TaskStatus] }}
-        />
-
-        <div className="flex w-full items-center justify-between rounded-e-lg bg-white px-5 py-4 dark:bg-dark-secondary">
-          <h3 className="font-semi-bold flex items-center text-lg dark:text-white">
-            {status}
-
-            <span className="ml-2 inline-block h-[1.5rem] w-[1.5rem] rounded-full bg-gray-200 p-1 text-center text-sm leading-none dark:bg-dark-tertiary">
-              {tasksCount}
-            </span>
-          </h3>
-
-          <div className="flex items-center gap-1">
-            <button className="flex h-6 w-5 items-center justify-center dark:text-neutral-500">
-              <EllipsisVertical size={26} />
-            </button>
-
-            <button
-              className="flex h-6 w-6 items-center justify-center rounded bg-gray-200 dark:bg-dark-tertiary dark:text-white"
-              onClick={onAddNewTask}
-            >
-              <Plus size={16} />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* TASKS */}
-      {tasks
-        .filter(({ status: taskStatus }) => taskStatus === status)
-        .map((task) => (
-          <TaskCard key={task.id} task={task} />
-        ))}
-    </div>
-  );
-};
-
-const TaskCard = ({
+const BoardTaskCard = ({
   task: {
     id,
     tags,
@@ -142,9 +42,7 @@ const TaskCard = ({
     assignee,
     author,
   },
-}: {
-  task: Task;
-}): React.ReactNode => {
+}: Props): React.ReactNode => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
     item: { id },
@@ -287,22 +185,4 @@ const TaskCard = ({
   );
 };
 
-const TASK_PRIORITY = {
-  URGENT: "Urgent",
-  HIGH: "High",
-  MEDIUM: "Medium",
-  LOW: "Low",
-  BACKLOG: "Backlog",
-} as const;
-
-type TaskPriority = (typeof TASK_PRIORITY)[keyof typeof TASK_PRIORITY];
-
-const TASK_PRIORITY_COLORS: Record<TaskPriority, string> = {
-  [TASK_PRIORITY.URGENT]: "bg-red-200 text-red-700",
-  [TASK_PRIORITY.HIGH]: "bg-yellow-200 text-yellow-700",
-  [TASK_PRIORITY.MEDIUM]: "bg-green-200 text-green-700",
-  [TASK_PRIORITY.LOW]: "bg-blue-200 text-blue-700",
-  [TASK_PRIORITY.BACKLOG]: "bg-gray-200 text-gray-700",
-};
-
-export default BoardView;
+export default BoardTaskCard;
