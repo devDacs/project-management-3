@@ -1,6 +1,6 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar";
 import Sidebar from "@/components/Sidebar";
 import React from "react";
 import StoreProvider, { useAppSelector } from "./redux";
