@@ -121,7 +121,7 @@ const columns: GridColDef[] = [
   },
 ];
 
-const ReusablePriorityPage = ({ priority }: Props) => {
+const PriorityTasksPage = ({ priority }: Props) => {
   const dispatch = useAppDispatch();
 
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
@@ -209,4 +209,4 @@ const ReusablePriorityPage = ({ priority }: Props) => {
   );
 };
 
-export default ReusablePriorityPage;
+export default PriorityTasksPage;

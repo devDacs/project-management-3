@@ -1,9 +1,9 @@
 import React from "react";
-import ReusablePriorityPage from "../[reusablePriorityPage]";
 import { Priority } from "@/state/api";
+import PriorityTasksPage from "@/features/priority/priority-tasks-page";
 
 const Medium = () => {
-  return <ReusablePriorityPage priority={Priority.Medium} />;
+  return <PriorityTasksPage priority={Priority.Medium} />;
 };
 
 export default Medium;

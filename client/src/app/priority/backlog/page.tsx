@@ -1,9 +1,9 @@
 import React from "react";
-import ReusablePriorityPage from "../[reusablePriorityPage]";
 import { Priority } from "@/state/api";
+import PriorityTasksPage from "@/features/priority/priority-tasks-page";
 
 const Backlog = () => {
-  return <ReusablePriorityPage priority={Priority.Backlog} />;
+  return <PriorityTasksPage priority={Priority.Backlog} />;
 };
 
 export default Backlog;
