@@ -47,7 +47,6 @@ export enum Priority {
 export interface User {
   id: number;
   username: string;
-  email: string;
   profilePictureUrl: string | null;
   cognitoId: string;
   teamId: string | null;
@@ -70,7 +69,7 @@ export interface SearchResults {
 export interface Team {
   id: number;
   teamName: string;
-  productOwernerUserId: number | null;
+  productOwnerUserId: number | null;
   projectManagerUserId: number | null;
 
   teamProductOwner: User | null;
