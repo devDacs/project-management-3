@@ -1,5 +1,5 @@
 import Header from "@/components/header";
-import { setLastActiveProjectTab } from "@/state";
+import { setLastActiveProjectTab } from "@/state/global-slice";
 import {
   Clock,
   Filter,

@@ -1,5 +1,9 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { useDispatch, useSelector, type TypedUseSelectorHook } from "react-redux";
+import {
+  useDispatch,
+  useSelector,
+  type TypedUseSelectorHook,
+} from "react-redux";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import {
   FLUSH,
@@ -10,7 +14,7 @@ import {
   REGISTER,
   REHYDRATE,
 } from "redux-persist";
-import globalReducer from "@/state";
+import globalReducer from "@/state/global-slice";
 import { api } from "@/state/api";
 
 const createNoopStorage = () => ({

@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface initialStateTypes {
+interface GlobalState {
   isSidebarCollapsed: boolean;
   isDarkMode: boolean;
   lastActiveProjectTab: string;
   lastActivePriorityView: string;
 }
 
-const initialState: initialStateTypes = {
+const initialState: GlobalState = {
   isSidebarCollapsed: false,
   isDarkMode: false,
   lastActiveProjectTab: "Board",
@@ -16,22 +16,22 @@ const initialState: initialStateTypes = {
 
 const reducers = {
   setIsSidebarCollapsed: (
-    state: initialStateTypes,
+    state: GlobalState,
     action: PayloadAction<boolean>,
   ) => {
     state.isSidebarCollapsed = action.payload;
   },
-  setIsDarkMode: (state: initialStateTypes, action: PayloadAction<boolean>) => {
+  setIsDarkMode: (state: GlobalState, action: PayloadAction<boolean>) => {
     state.isDarkMode = action.payload;
   },
   setLastActiveProjectTab: (
-    state: initialStateTypes,
+    state: GlobalState,
     action: PayloadAction<string>,
   ) => {
     state.lastActiveProjectTab = action.payload;
   },
   setLastActivePriorityView: (
-    state: initialStateTypes,
+    state: GlobalState,
     action: PayloadAction<string>,
   ) => {
     state.lastActivePriorityView = action.payload;
