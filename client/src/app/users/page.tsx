@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useAppSelector } from "../redux";
+import { useAppSelector } from "@/store/store";
 import { useGetUsersQuery } from "@/state/api";
 import Header from "@/components/header";
 import {

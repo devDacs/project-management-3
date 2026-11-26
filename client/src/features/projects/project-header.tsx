@@ -11,7 +11,7 @@ import {
   Table,
 } from "lucide-react";
 import React, { useState } from "react";
-import { useAppDispatch } from "../../app/redux";
+import { useAppDispatch } from "@/store/store";
 import Button from "@/components/button";
 import NewProjectModal from "./new-project-modal";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useAppSelector } from "@/app/redux";
+import { useAppSelector } from "@/store/store";
 import CreateTaskModal from "@/features/tasks/create-task-modal";
 import { Status } from "@/state/api";
 import Board from "@/features/projects/board-view";

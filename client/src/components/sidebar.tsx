@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/app/redux";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { setIsSidebarCollapsed } from "@/state";
 import { useGetAuthUserQuery, useGetProjectsQuery } from "@/state/api";
 import { signOut } from "aws-amplify/auth";

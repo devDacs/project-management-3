@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/app/redux";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import Button from "@/components/button";
 import Header from "@/components/header";
 import CreateTaskModal from "@/features/tasks/create-task-modal";

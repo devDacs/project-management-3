@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useAppSelector } from "./redux";
+import { useEffect, type ReactNode } from "react";
+import { useAppSelector } from "@/store/store";
 
-const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
+export default function ThemeProvider({ children }: { children: ReactNode }) {
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
   useEffect(() => {
@@ -11,6 +11,4 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   }, [isDarkMode]);
 
   return children;
-};
-
-export default ThemeProvider;
+}

@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from "@/app/redux";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { setIsDarkMode, setIsSidebarCollapsed } from "@/state";
 import { useGetAuthUserQuery } from "@/state/api";
 import { signOut } from "aws-amplify/auth";
