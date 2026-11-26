@@ -2,24 +2,15 @@
 
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
-import React, { useEffect } from "react";
+import React from "react";
 import StoreProvider, { useAppSelector } from "./redux";
 import AuthProvider from "./authProvider";
+import ThemeProvider from "./themeProvider";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
-
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed,
   );
-
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  });
 
   return (
     <div className="flex min-h-screen w-full bg-gray-50 text-gray-900">
@@ -42,9 +33,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 const DashboardWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <StoreProvider>
-      <AuthProvider>
-        <DashboardLayout>{children}</DashboardLayout>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <DashboardLayout>{children}</DashboardLayout>
+        </AuthProvider>
+      </ThemeProvider>
     </StoreProvider>
   );
 };
