@@ -1,6 +1,6 @@
 import { useCreateProjectMutation } from "@/state/api";
 import { useState } from "react";
-import Modal from "@/components/Modal";
+import Modal from "@/components/modal";
 import { formatISO } from "date-fns";
 
 type Props = {

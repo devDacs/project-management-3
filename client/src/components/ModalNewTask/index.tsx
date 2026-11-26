@@ -1,7 +1,7 @@
 import { Priority, Status, useCreateTaskMutation } from "@/state/api";
 import { formatISO } from "date-fns";
 import React, { useState } from "react";
-import Modal from "../Modal";
+import Modal from "../modal";
 
 type Props = {
   id?: string | null;
