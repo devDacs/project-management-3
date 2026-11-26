@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/app/redux";
-import Button from "@/components/Button";
+import Button from "@/components/button";
 import Header from "@/components/Header";
 import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
 import { useGetTasksByProjectIdQuery } from "@/state/api";

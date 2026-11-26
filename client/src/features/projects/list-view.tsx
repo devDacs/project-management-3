@@ -1,4 +1,4 @@
-import Button from "@/components/Button";
+import Button from "@/components/button";
 import Header from "@/components/Header";
 import TaskCard from "@/components/TaskCard";
 import { Task, useGetTasksByProjectIdQuery } from "@/state/api";

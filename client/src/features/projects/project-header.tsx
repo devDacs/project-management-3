@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import React, { useState } from "react";
 import { useAppDispatch } from "../../app/redux";
-import Button from "@/components/Button";
+import Button from "@/components/button";
 import NewProjectModal from "./new-project-modal";
 
 type Props = {
