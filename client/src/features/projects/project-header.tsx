@@ -11,9 +11,9 @@ import {
   Table,
 } from "lucide-react";
 import React, { useState } from "react";
-import { useAppDispatch } from "../redux";
+import { useAppDispatch } from "../../app/redux";
 import Button from "@/components/Button";
-import ModalNewProject from "./ModalNewProject";
+import ModalNewProject from "../../app/projects/ModalNewProject";
 
 type Props = {
   activeTab: string;
