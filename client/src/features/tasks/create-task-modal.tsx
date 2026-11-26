@@ -1,7 +1,7 @@
 import { Priority, Status, useCreateTaskMutation } from "@/state/api";
 import { formatISO } from "date-fns";
 import React, { useState } from "react";
-import Modal from "../modal";
+import Modal from "../../components/modal";
 
 type Props = {
   id?: string | null;
@@ -16,7 +16,7 @@ const INPUT_STYLES =
 const SELECT_STYLES =
   "mb-4 block w-full rounded border border-gray-300 px-3 py-2 dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
 
-const ModalNewTask = ({
+const CreateTaskModal = ({
   id = null,
   isOpen,
   onClose,
@@ -194,4 +194,4 @@ const ModalNewTask = ({
   );
 };
 
-export default ModalNewTask;
+export default CreateTaskModal;

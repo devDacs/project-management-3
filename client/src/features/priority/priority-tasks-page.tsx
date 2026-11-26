@@ -3,7 +3,7 @@
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import Button from "@/components/button";
 import Header from "@/components/header";
-import ModalNewTask from "@/components/ModalNewTask";
+import CreateTaskModal from "@/features/tasks/create-task-modal";
 import TaskCard from "@/components/TaskCard";
 import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
 import { setLastActivePriorityView } from "@/state";
@@ -151,7 +151,7 @@ const PriorityTasksPage = ({ priority }: Props) => {
   return (
     <div className="m-5 p-4">
       {/* MODAL NEW TASK */}
-      <ModalNewTask
+      <CreateTaskModal
         isOpen={isModalNewTaskOpen}
         onClose={() => setIsModalNewTaskOpen(false)}
       />

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useAppSelector } from "@/app/redux";
-import ModalNewTask from "@/components/ModalNewTask";
+import CreateTaskModal from "@/features/tasks/create-task-modal";
 import { Status } from "@/state/api";
 import Board from "@/features/projects/board-view";
 import List from "@/features/projects/list-view";
@@ -24,7 +24,7 @@ const Project = ({ params: { id } }: Props) => {
   return (
     <div>
       {/* MODAL NEW TASK */}
-      <ModalNewTask
+      <CreateTaskModal
         id={id}
         isOpen={isModalNewTaskOpen}
         toStatus={toStatus}
