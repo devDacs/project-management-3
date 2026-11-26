@@ -11,7 +11,7 @@ type Props = {
 const INPUT_STYLES =
   "w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
 
-const ModalNewProject = ({ isOpen, onClose }: Props) => {
+const NewProjectModal = ({ isOpen, onClose }: Props) => {
   const [createProject, { isLoading }] = useCreateProjectMutation();
 
   const [projectName, setProjectName] = useState("");
@@ -100,4 +100,4 @@ const ModalNewProject = ({ isOpen, onClose }: Props) => {
   );
 };
 
-export default ModalNewProject;
+export default NewProjectModal;
