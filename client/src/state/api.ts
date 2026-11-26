@@ -22,11 +22,25 @@ export interface Task {
   projectId: number;
   authorUserId: number;
   assignedUserId: number | null;
+}
 
-  author: User | null;
+export interface TaskWithOptionalRelations extends Task {
+  author?: User | null;
+  assignee?: User | null;
+  comments?: TaskComment[];
+  attachments?: Attachment[];
+}
+
+export interface ProjectTask extends TaskWithOptionalRelations {
+  author: User;
   assignee: User | null;
-  comments: Comment[];
+  comments: TaskComment[];
   attachments: Attachment[];
+}
+
+export interface UserTask extends TaskWithOptionalRelations {
+  author: User;
+  assignee: User | null;
 }
 
 export enum Status {
@@ -49,7 +63,13 @@ export interface User {
   username: string;
   profilePictureUrl: string | null;
   cognitoId: string;
-  teamId: string | null;
+  teamId: number | null;
+}
+
+export interface SearchUser {
+  id: number;
+  username: string;
+  profilePictureUrl: string | null;
 }
 
 export interface Attachment {
@@ -60,10 +80,22 @@ export interface Attachment {
   uploadedById: number;
 }
 
+export interface TaskComment {
+  id: number;
+  text: string;
+  taskId: number;
+  userId: number;
+}
+
 export interface SearchResults {
   tasks: Task[];
   projects: Project[];
-  users: User[];
+  users: SearchUser[];
+}
+
+export interface TeamMemberSummary {
+  username: string;
+  profilePictureUrl: string | null;
 }
 
 export interface Team {
@@ -72,8 +104,8 @@ export interface Team {
   productOwnerUserId: number | null;
   projectManagerUserId: number | null;
 
-  teamProductOwner: User | null;
-  teamProjectManager: User | null;
+  teamProductOwner: TeamMemberSummary | null;
+  teamProjectManager: TeamMemberSummary | null;
 }
 
 export const api = createApi({
@@ -106,7 +138,7 @@ export const api = createApi({
       }),
       invalidatesTags: ["Projects"],
     }),
-    getTasksByProjectId: query<Task[], { id: number }>({
+    getTasksByProjectId: query<ProjectTask[], { id: number }>({
       query: ({ id }) => `tasks/project/${id}`,
       transformResponse: ({ data }) => data,
       providesTags: (result) =>
@@ -144,7 +176,7 @@ export const api = createApi({
       providesTags: ["Teams"],
       transformResponse: ({ data }) => data,
     }),
-    getTasksByUserId: query<Task[], { id: number }>({
+    getTasksByUserId: query<UserTask[], { id: number }>({
       query: ({ id }) => `tasks/user/${id}`,
       transformResponse: ({ data }) => data,
       providesTags: (result, _, { id: userId }) =>

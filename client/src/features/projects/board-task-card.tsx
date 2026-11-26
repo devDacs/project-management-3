@@ -1,4 +1,4 @@
-import { Task } from "@/state/api";
+import { TaskWithOptionalRelations } from "@/state/api";
 import { format } from "date-fns";
 import { EllipsisVertical, MessageSquareMore } from "lucide-react";
 import Image from "next/image";
@@ -6,7 +6,7 @@ import React from "react";
 import { useDrag } from "react-dnd";
 
 type Props = {
-  task: Task;
+  task: TaskWithOptionalRelations;
 };
 
 const TASK_PRIORITY = {

@@ -1,9 +1,9 @@
-import { User } from "@/state/api";
+import { SearchUser } from "@/state/api";
 import Image from "next/image";
 import React from "react";
 
 type Props = {
-  user: User;
+  user: SearchUser;
 };
 
 const UserCard = ({ user: { username, profilePictureUrl } }: Props) => {

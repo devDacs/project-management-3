@@ -1,10 +1,10 @@
-import { Task } from "@/state/api";
+import { TaskWithOptionalRelations } from "@/state/api";
 import { format } from "date-fns/format";
 import Image from "next/image";
 import React from "react";
 
 type Props = {
-  task: Task;
+  task: TaskWithOptionalRelations;
 };
 
 const TaskCard = ({
