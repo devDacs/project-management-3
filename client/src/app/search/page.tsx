@@ -5,8 +5,8 @@ import TaskCard from "@/features/tasks/task-card";
 import { useSearchQuery } from "@/state/api";
 import { debounce } from "lodash";
 import React, { useEffect, useState } from "react";
-import ProjectCard from "./_components/project-card";
-import UserCard from "./_components/user-card";
+import ProjectCard from "./_components/ProjectCard";
+import UserCard from "./_components/UserCard";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
