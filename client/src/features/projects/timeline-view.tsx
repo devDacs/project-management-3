@@ -1,6 +1,6 @@
 import { useAppSelector } from "@/store/store";
-import Button from "@/components/button";
-import Header from "@/components/header";
+import Button from "@/components/Button";
+import Header from "@/components/Header";
 import { useGetTasksByProjectIdQuery } from "@/state/api";
 import { DisplayOption, Gantt, ViewMode } from "gantt-task-react";
 import React, { useMemo, useState } from "react";

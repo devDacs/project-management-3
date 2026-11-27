@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppSelector } from "@/store/store";
-import Header from "@/components/header";
+import Header from "@/components/Header";
 import { useGetProjectsQuery } from "@/state/api";
 import { DisplayOption, Gantt, ViewMode } from "gantt-task-react";
 import React, { useMemo, useState } from "react";

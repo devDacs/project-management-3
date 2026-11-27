@@ -1,11 +1,11 @@
 "use client";
 
 import type { ReactNode } from "react";
-import Navbar from "@/components/navbar";
-import Sidebar from "@/components/sidebar";
+import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
 import { useAppSelector } from "@/store/store";
 
-export default function AppShell({ children }: { children: ReactNode }) {
+const AppShell = ({ children }: { children: ReactNode }) => {
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed,
   );
@@ -24,4 +24,6 @@ export default function AppShell({ children }: { children: ReactNode }) {
       </main>
     </div>
   );
-}
+};
+
+export default AppShell;

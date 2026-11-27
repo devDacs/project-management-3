@@ -3,7 +3,7 @@
 import React from "react";
 import { useAppSelector } from "@/store/store";
 import { useGetTeamsQuery } from "@/state/api";
-import Header from "@/components/header";
+import Header from "@/components/Header";
 import {
   DataGrid,
   GridColDef,

@@ -1,8 +1,8 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import Button from "@/components/button";
-import Header from "@/components/header";
+import Button from "@/components/Button";
+import Header from "@/components/Header";
 import CreateTaskModal from "@/features/tasks/create-task-modal";
 import TaskCard from "@/features/tasks/task-card";
 import { dataGridClassNames, dataGridSxStyles } from "@/lib/data-grid-styles";

@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Header from "./header";
 import { X } from "lucide-react";
 import { useAppSelector } from "@/store/store";
+import Header from "@/components/Header";
 
 type Props = {
   children: React.ReactNode;

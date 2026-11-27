@@ -11,7 +11,7 @@ import {
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React from "react";
 import { useAppSelector } from "@/store/store";
-import Header from "@/components/header";
+import Header from "@/components/Header";
 import {
   Bar,
   BarChart,

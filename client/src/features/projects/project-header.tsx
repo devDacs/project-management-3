@@ -1,4 +1,4 @@
-import Header from "@/components/header";
+import Header from "@/components/Header";
 import { setLastActiveProjectTab } from "@/state/global-slice";
 import {
   Clock,
@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import React, { useState } from "react";
 import { useAppDispatch } from "@/store/store";
-import Button from "@/components/button";
+import Button from "@/components/Button";
 import NewProjectModal from "./new-project-modal";
 
 type Props = {
