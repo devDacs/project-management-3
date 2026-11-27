@@ -44,6 +44,8 @@ const formFields = {
   },
 };
 
-export default function AuthProvider({ children }: { children: ReactNode }) {
+const AuthProvider = ({ children }: { children: ReactNode }) => {
   return <Authenticator formFields={formFields}>{children}</Authenticator>;
-}
+};
+
+export default AuthProvider;

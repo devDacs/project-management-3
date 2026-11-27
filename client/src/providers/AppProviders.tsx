@@ -5,7 +5,7 @@ import AuthProvider from "@/providers/AuthProvider";
 import StoreProvider from "@/providers/StoreProvider";
 import ThemeProvider from "@/providers/ThemeProvider";
 
-export default function AppProviders({ children }: { children: ReactNode }) {
+const AppProviders = ({ children }: { children: ReactNode }) => {
   return (
     <StoreProvider>
       <ThemeProvider>
@@ -13,4 +13,6 @@ export default function AppProviders({ children }: { children: ReactNode }) {
       </ThemeProvider>
     </StoreProvider>
   );
-}
+};
+
+export default AppProviders;

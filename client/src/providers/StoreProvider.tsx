@@ -7,7 +7,7 @@ import { persistStore, type Persistor } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { makeStore, type AppStore } from "@/store/store";
 
-export default function StoreProvider({ children }: { children: ReactNode }) {
+const StoreProvider = ({ children }: { children: ReactNode }) => {
   const storeRef = useRef<AppStore | null>(null);
   const persistorRef = useRef<Persistor | null>(null);
 
@@ -27,4 +27,6 @@ export default function StoreProvider({ children }: { children: ReactNode }) {
       </PersistGate>
     </Provider>
   );
-}
+};
+
+export default StoreProvider;
