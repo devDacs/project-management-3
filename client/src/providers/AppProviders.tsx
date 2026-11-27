@@ -1,9 +1,9 @@
 "use client";
 
 import type { ReactNode } from "react";
-import AuthProvider from "@/providers/auth-provider";
-import StoreProvider from "@/providers/store-provider";
-import ThemeProvider from "@/providers/theme-provider";
+import AuthProvider from "@/providers/AuthProvider";
+import StoreProvider from "@/providers/StoreProvider";
+import ThemeProvider from "@/providers/ThemeProvider";
 
 export default function AppProviders({ children }: { children: ReactNode }) {
   return (
