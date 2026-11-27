@@ -8,7 +8,10 @@ The client and API are separate npm packages, each with its own `package.json`, 
 client/
   src/app/          Next.js pages, layout, and project-specific views
   src/components/   Shared React UI
-  src/state/        Redux store, persisted preferences, RTK Query API
+  src/features/     Dashboard, project, priority, and task UI
+  src/providers/    Store, theme, and Cognito provider composition
+  src/state/        UI preference slice and RTK Query API
+  src/store/        Redux store and persistence configuration
   src/lib/          Client utilities
   public/           Static image and icon assets
 server/
@@ -17,6 +20,7 @@ server/
   src/controllers/  Endpoint handlers and Prisma queries
   src/lib/prisma.ts PostgreSQL adapter and Prisma client
   prisma/           Schema, migrations, sample data, seed script
+docs/               Architecture, database, API, and development guides
 ```
 
 ## Local setup

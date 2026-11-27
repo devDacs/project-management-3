@@ -51,10 +51,14 @@ The API currently does not authenticate or authorize requests; the bearer header
 client/
   src/app/          Next.js routes, layouts, and project views
   src/components/   Shared React components
-  src/state/        Redux store, preferences, and RTK Query API
+  src/features/     Dashboard, project, priority, and task UI
+  src/providers/    Redux, theme, and Cognito provider composition
+  src/state/        UI preferences and RTK Query API definitions
+  src/store/        Redux store and persistence configuration
   src/lib/          Client-side helpers
   public/           Static images and assets
 server/
+  src/index.ts      Express application setup and listen call
   src/routes/       Express route definitions
   src/controllers/  API request handlers
   src/lib/          Prisma client setup
@@ -85,11 +89,11 @@ Run commands from the repository root unless a command explicitly changes direct
 2. Create local environment files from the safe templates:
 
    ```sh
-   cp client/.env.example client/.env.local
-   cp server/.env.example server/.env
+   [ -f client/.env.local ] || cp client/.env.example client/.env.local
+   [ -f server/.env ] || cp server/.env.example server/.env
    ```
 
-   Edit both files for your local PostgreSQL connection, Cognito User Pool, API address, and image origin. The Cognito and image values in the examples are placeholders, not working service configuration. `NEXT_PUBLIC_*` values are included in browser-visible client configuration; do not put secrets in them.
+   The commands leave existing local files untouched. Edit the files for your PostgreSQL connection, Cognito User Pool, API address, and image origin. The Cognito and image values in the examples are placeholders, not working service configuration. `NEXT_PUBLIC_*` values are included in browser-visible client configuration; do not put secrets in them.
 
 3. Generate the Prisma client, apply migrations, and optionally load the sample data:
 
@@ -126,6 +130,7 @@ Run commands from the repository root unless a command explicitly changes direct
 | `NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID` | Client | Cognito app client identifier for Amplify Auth. |
 
 See [`client/.env.example`](client/.env.example) and [`server/.env.example`](server/.env.example) for placeholders and setup notes.
+Next.js `NEXT_PUBLIC_*` values are exposed in browser code and are embedded when the client is built; configure them before running `npm run build`. They must not contain secrets.
 
 ## Database
 

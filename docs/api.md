@@ -23,7 +23,7 @@ The client adds a Cognito access token as a bearer `Authorization` header when o
 | `GET /projects` | Returns all project rows. |
 | `POST /projects` | Creates a project. |
 
-`POST /projects` body:
+`POST /projects` JSON body:
 
 ```json
 {
@@ -34,7 +34,7 @@ The client adds a Cognito access token as a bearer `Authorization` header when o
 }
 ```
 
-`name` is required by the database. `description`, `startDate`, and `endDate` are optional. A successful create returns HTTP `201`.
+`name` is required by the database. `description`, `startDate`, and `endDate` are optional. Dates should be supplied as JSON date/time strings accepted by Prisma. A successful create returns HTTP `201`.
 
 ### Tasks
 
@@ -45,7 +45,7 @@ The client adds a Cognito access token as a bearer `Authorization` header when o
 | `PATCH /tasks/:id/status` | Updates the task's `status` field. |
 | `GET /tasks/user/:id` | Returns tasks whose author or assignee is the positive integer user ID; includes `author` and `assignee`. |
 
-`POST /tasks` body fields:
+`POST /tasks` JSON body fields:
 
 | Field | Database requirement | Notes |
 | --- | --- | --- |
@@ -67,7 +67,7 @@ The client adds a Cognito access token as a bearer `Authorization` header when o
 { "status": "Work In Progress" }
 ```
 
-The handler validates that `:id` is a positive integer. It does not validate the status value or validate the request body before passing it to Prisma.
+The handler validates that `:id` is a positive integer. It does not validate the status value or validate the request body before passing it to Prisma. A well-formed ID that does not identify a task is reported as HTTP `500` by the current handler.
 
 ### Search
 
@@ -91,7 +91,7 @@ GET /search?query=website
 | `POST /users` | Creates a user row. |
 | `GET /users/cognitoId/:id` | Looks up a user by Cognito subject (`cognitoId`). |
 
-`POST /users` accepts `username` and `cognitoId` (required by the database), with optional `profilePictureUrl` and `teamId`. The handler defaults `profilePictureUrl` to `"i1.jpg"` and `teamId` to `1` when those properties are omitted. A successful create returns HTTP `201`.
+`POST /users` accepts `username` and `cognitoId` (required by the database), with optional `profilePictureUrl` and `teamId`. The handler defaults `profilePictureUrl` to `"i1.jpg"` and `teamId` to `1` when those properties are omitted. If team `1` does not exist, the default team reference causes creation to fail. A successful create returns HTTP `201`.
 
 The Cognito lookup returns HTTP `404` and `{"message":"User not found"}` when no matching application record exists. The client uses this endpoint to load the signed-in user's application profile. Sign-up does not automatically call the user-creation endpoint.
 
@@ -129,9 +129,12 @@ The exact fields under `data` vary by endpoint:
 
 | Condition | Status | Response behavior |
 | --- | --- | --- |
-| Invalid task project/user path ID | `400` | JSON `message` identifies the invalid ID. |
+| Invalid task ID in `PATCH /tasks/:id/status` | `400` | `{"message":"Invalid task ID"}` |
+| Invalid project ID in `GET /tasks/project/:id` | `400` | `{"message":"Invalid project ID"}` |
+| Invalid user ID in `GET /tasks/user/:id` | `400` | `{"message":"Invalid user ID"}` |
 | Missing or blank search query | `400` | `{"message":"A valid search query is required."}` |
 | Cognito ID has no database user | `404` | `{"message":"User not found"}` |
+| Unmatched route | `404` | Express's default not-found response; no application JSON error envelope is defined. |
 | Database or handler exception | `500` | JSON `message` includes an operation-specific prefix and the caught error message. |
 
 There is no shared error envelope for all responses. Create handlers and task status update do not perform explicit field validation; database constraint errors are surfaced as HTTP `500`, not a client validation status. The server's error response may include internal database error details and should be reviewed before production exposure.
